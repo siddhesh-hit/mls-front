@@ -19,8 +19,8 @@ const AssemblyMemberEng = () => {
 
   const data = {
     title: {
-      marathi: "विधानसभा सदस्यांची यादी",
-      english: "List of Legislative Assembly Members",
+      marathi: "१४वी विधानसभा सदस्यांची यादी",
+      english: "List of 14th Legislative Assembly Members",
     },
     Link1: {
       marathi: "मुख्यपृष्ठ",

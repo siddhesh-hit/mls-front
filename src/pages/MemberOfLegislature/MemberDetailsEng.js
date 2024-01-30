@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { Container, Row, Col, Button } from "react-bootstrap";
+import { Container, Row, Col, Button, Pagination } from "react-bootstrap";
 import Header from "../../Components/Common/Header";
 import Footer from "../../Components/Common/Footer";
 import news1 from "../../assets/Rectangle 6607.jpg";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import Slider from "react-slick";
 import { getApi, getApiById } from "../../service/axiosInterceptors";
 import { API } from "../../config";
 
@@ -18,6 +17,10 @@ const MemberDetailEng = () => {
 
   const [current, setCurrent] = useState({});
   const [member, setMember] = useState([]);
+  const [debates, setDebates] = useState([]);
+  const [filtered, setFiltered] = useState([]);
+  const [perLimit, setPerLimit] = useState(10);
+  const [perPage, setPerPage] = useState(1);
 
   const data = {
     title: {
@@ -136,6 +139,7 @@ const MemberDetailEng = () => {
     },
   };
 
+  const navigate = useNavigate();
   const location = useLocation();
   const id = location.search.split("=")[1];
   const queryParams = new URLSearchParams(location.search);
@@ -185,16 +189,6 @@ const MemberDetailEng = () => {
     }px)`;
   };
 
-  const fetchData = async () => {
-    await getApiById("member", id)
-      .then((res) => setCurrent(res.data.data))
-      .catch((err) => console.log(err));
-
-    await getApi("member")
-      .then((res) => setMember(res.data.data))
-      .catch((err) => console.log(err));
-  };
-
   useEffect(() => {
     const storedLang = localStorage.getItem("lang");
     const newLang = queryParams.get("lang") || storedLang || "mr";
@@ -207,8 +201,58 @@ const MemberDetailEng = () => {
   }, [currentIndex]);
 
   useEffect(() => {
+    const fetchData = async () => {
+      await getApiById("member", id)
+        .then((res) => setCurrent(res.data.data))
+        .catch((err) => console.log(err));
+
+      // /house?id=""
+
+      await getApi(`member`)
+        .then((res) => {
+          setMember(res.data.data);
+          setFiltered(res.data.data);
+        })
+        .catch((err) => console.log(err));
+    };
     fetchData();
   }, []);
+
+  useEffect(() => {
+    const fetchDebate = async (house, name, perPage, perLimit) => {
+      await getApi(
+        `debate/member?houses=${house}&name=${name}&perPage=${perPage}&perLimit=${perLimit}`
+      )
+        .then((res) => setDebates(res.data))
+        .catch((err) => console.log(err));
+    };
+
+    if (current && current?.basic_info) {
+      let name = current?.basic_info?.surname + current?.basic_info?.name;
+
+      fetchDebate("विधानसभा", name, 0, 10);
+    }
+  }, [current]);
+
+  const handleClick = (id) => {
+    navigate(`/MemberDetailsEng?id=${id}`, { replace: true });
+    window.location.reload();
+  };
+
+  const handleSearch = (e) => {
+    const search = e.target.value;
+
+    const data = member.filter((ele) => {
+      let name = ele?.basic_info?.surname + ele?.basic_info?.name;
+
+      if (name.toLowerCase().includes(search.toLowerCase())) {
+        return ele;
+      }
+    });
+
+    setFiltered(data);
+  };
+
   return (
     <>
       <Header />
@@ -254,6 +298,7 @@ const MemberDetailEng = () => {
                               ? data.placeholder.marathi
                               : data.placeholder.english
                           }
+                          onChange={handleSearch}
                         />
                       </div>
                       <span className="search-btn">
@@ -267,8 +312,8 @@ const MemberDetailEng = () => {
                 <Col className="col1-member-search mt-2 p-2">
                   <div className="content-container">
                     <Row>
-                      {member && member.length > 0 ? (
-                        member.map((item, index) => (
+                      {filtered && filtered.length > 0 ? (
+                        filtered.map((item, index) => (
                           <Col
                             lg={12}
                             md={12}
@@ -277,7 +322,11 @@ const MemberDetailEng = () => {
                             className="mt-2"
                             key={index}
                           >
-                            <Row style={{ alignItems: "center" }}>
+                            <Row
+                              role="button"
+                              onClick={() => handleClick(item._id)}
+                              style={{ alignItems: "center" }}
+                            >
                               <Col lg={3} md={3} sm={4} xs={4}>
                                 <img
                                   src={
@@ -909,36 +958,46 @@ const MemberDetailEng = () => {
                                   </tr>
                                 </thead>
                                 <tbody style={{ fontSize: "12px" }}>
-                                  <tr className="text-center ">
-                                    <td>Vidhansabha </td>
-                                    <td>151</td>
-                                    <td>Budgetary</td>
-                                    <td>6</td>
-                                    <td>21 March,2011</td>
-                                    <td>Q&A</td>
-                                    <td>Unstarred </td>
-                                    <td>October Nove</td>
-                                    <td>
-                                      <i className="fa fa-eye"></i>View
-                                    </td>
-                                  </tr>
-                                  <tr className="text-center ">
-                                    <td>Vidhansabha </td>
-                                    <td>151</td>
-                                    <td>Budgetary</td>
-                                    <td>6</td>
-                                    <td>21 March,2011</td>
-                                    <td>Q&A</td>
-                                    <td>Unstarred</td>
-                                    <td>October Nove</td>
-                                    <td>
-                                      <i className="fa fa-eye"></i>View
-                                    </td>
-                                  </tr>
+                                  {debates &&
+                                  debates?.data &&
+                                  debates?.data.length > 0 ? (
+                                    <>
+                                      {debates.data.map((item, index) => (
+                                        <tr
+                                          className="text-center "
+                                          key={index}
+                                        >
+                                          <td>{item.house}</td>
+                                          <td>{item.volume}</td>
+                                          <td>{item.session}</td>
+                                          <td>{item.kramank}</td>
+                                          <td>{item.date}</td>
+                                          <td>{item.method}</td>
+                                          <td>{item.method_type}</td>
+                                          <td>{item.topic}</td>
+                                          <td>
+                                            <a
+                                              href={
+                                                "http://103.112.121.109:8000/" +
+                                                item.fileurl
+                                              }
+                                              target="_blank"
+                                              rel="noreferrer"
+                                            >
+                                              <i className="fa fa-eye"></i>
+                                            </a>
+                                          </td>
+                                        </tr>
+                                      ))}
+                                    </>
+                                  ) : (
+                                    <></>
+                                  )}
                                 </tbody>
                               </table>
                             </div>
-                            <div
+
+                            {/* <div
                               className="d-flex justify-content-end"
                               style={{ marginTop: "10px" }}
                             >
@@ -956,7 +1015,7 @@ const MemberDetailEng = () => {
                                   <i className="fa fa-chevron-right "></i>
                                 </b>
                               </Button>
-                            </div>
+                            </div> */}
                           </Col>
                         </Row>
                       </section>

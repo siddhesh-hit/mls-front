@@ -1,0 +1,1 @@
+function usePaginate(totalCount, activePage) {}

@@ -61,9 +61,13 @@ const DebateDetails = () => {
                   <td>{debate.volume}</td>
 
                   <td>
-                    <Link to={"http://103.112.121.109:8000/" + debate.fileurl}>
+                    <a
+                      href={"http://103.112.121.109:8000/" + debate.fileurl}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
                       <i className="fa fa-eye"></i>
-                    </Link>
+                    </a>
                     {/* &nbsp;पहा */}
                   </td>
                 </tr>
