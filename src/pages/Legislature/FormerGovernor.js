@@ -1,13 +1,11 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Container, Row, Col, Accordion } from "react-bootstrap";
-import Header from "../../Components/Common/Header";
-import Footer from "../../Components/Common/Footer";
 import { API } from "../../config";
 import { getApi } from "../../service/axiosInterceptors";
+import useLang from "../../utils/useLang";
 
-const Formergovernor = () => {
-  const [lang, setLang] = useState("mr");
+const FormerGovernor = () => {
   const [serverActive, setServerActive] = useState([]);
   const [serverCurrent, setServerCurrent] = useState([]);
 
@@ -50,13 +48,6 @@ const Formergovernor = () => {
     },
   };
 
-  const location = useLocation();
-  const queryParams = new URLSearchParams(location.search);
-
-  const updateLocalStorage = (newLang) => {
-    localStorage.setItem("lang", newLang);
-  };
-
   const fetchData = async () => {
     try {
       const activeRes = await getApi("/rajyapal/active");
@@ -69,12 +60,7 @@ const Formergovernor = () => {
     }
   };
 
-  useEffect(() => {
-    const storedLang = localStorage.getItem("lang");
-    const newLang = queryParams.get("lang") || storedLang || "mr";
-    setLang(newLang);
-    updateLocalStorage(newLang);
-  }, [location.search]);
+  const { lang, checkLang } = useLang();
 
   useEffect(() => {
     fetchData();
@@ -82,7 +68,6 @@ const Formergovernor = () => {
 
   return (
     <div style={{ overflow: "hidden" }}>
-      <Header />
       <section>
         <div className="container-fluid justify-content-center section-top-space">
           <ul className="breadcrumb">
@@ -260,10 +245,8 @@ const Formergovernor = () => {
           </Container>
         </div>
       </section>
-
-      <Footer />
     </div>
   );
 };
 
-export default Formergovernor;
+export default FormerGovernor;

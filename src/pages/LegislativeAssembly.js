@@ -1,124 +1,31 @@
-import React from "react";
-import Header from "../Components/Common/Header";
-import Footer from "../Components/Common/Footer";
-import partiwise from "../assets/about/biograph- party.jpg";
-import member4 from "../assets/image 24.png";
-import councilgraph from "../assets/about/COUNCIL.jpg";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation, Link } from "react-router-dom";
+import { Row, Container, Col } from "react-bootstrap";
+
+import partiwise from "../assets/about/image 239.jpg";
+import councilgraph from "../assets/assemblygroup.png";
+
+import LoaderComponents from "./loader";
+
 import { getApi } from "../service/axiosInterceptors";
 import { API } from "../config";
-import { Container } from "react-bootstrap";
-import LoaderComponents from "./loader";
+import { assembly } from "../constant";
+
+import useLang from "../utils/useLang";
+
 const LegislativeCouncil = () => {
-  const [lang, setLang] = useState("mr");
   const [serverData, setServerData] = useState({});
   const [loading, setLoading] = useState(true);
 
-  const [data, setData] = useState({
-    title: {
-      marathi: "विधानसभा",
-      english: "Legislative Assembly",
-    },
-    describe: {
-      marathi: "",
-      english: "",
-    },
-    heading: {
-      marathi: " महाराष्ट्र  विधानसभा",
-      english: " Maharashtra Legislative Assembly",
-    },
-    bioSect: {
-      marathi: "चरित्रात्मक माहिती",
-      english: "Biographical Information",
-    },
-    biosect1: {
-      marathi: "सदस्यांचे पक्षनिहाय प्रतिनिधीत्व",
-      english: "Party-wise Representation of Members",
-    },
-    Link1: {
-      marathi: "मुख्यपृष्ठ",
-      english: "Home",
-    },
-    Link2: {
-      marathi: "विधानसभा",
-      english: "Assembly",
-    },
-    member: {
-      marathi: "",
-      english: "",
-    },
-    headerImp: {
-      marathi: "महत्वाची प्रकाशने",
-      english: "Important Publications",
-    },
-    structure: {
-      marathi: "रचना",
-      english: "Structure",
-    },
-    name: {
-      marathi: "महाराष्ट्र विधानसभा",
-      english: "Maharashtra Vidhansabha",
-    },
-    Type: {
-      marathi: "प्रकार - लोवर  हाऊस ",
-      english: "Type - Lower house",
-    },
-    Term: {
-      marathi: "मुदत मर्यादा - 5 वर्षे",
-      english: "Term Limit -5 Years",
-    },
-    seats: {
-      marathi: "जागा-७८",
-      english: "seats-78",
-    },
-  });
-
-  const location = useLocation();
-  const queryParams = new URLSearchParams(location.search);
-
-  const updateLocalStorage = (newLang) => {
-    localStorage.setItem("lang", newLang);
-  };
+  const { lang, checkLang } = useLang();
 
   useEffect(() => {
-    const storedLang = localStorage.getItem("lang");
-    const newLang = queryParams.get("lang") || storedLang || "mr";
-    setLang(newLang);
-    updateLocalStorage(newLang);
-  }, [location.search]);
-
-  const fetchData = async () => {
-    try {
-      await getApi("sabha/active").then((res) => {
-        const newData = res.data.data;
-        setServerData(newData);
-        setData((prev) => {
-          return {
-            ...prev,
-            describe: {
-              marathi: newData.marathi.description,
-              english: newData.english.description,
-              legislative_council: newData.legislative_council,
-            },
-            member: {
-              marathi: newData.marathi.legislative_council,
-              english: newData.english.legislative_council,
-              legislative_council: newData.legislative_council,
-            },
-          };
-        });
-      });
-    } catch (err) {
-      console.log(err);
-    } finally {
+    const fetchData = async () => {
+      await getApi("sabha/active")
+        .then((res) => setServerData(res.data.data))
+        .catch((err) => console.log(err));
       setLoading(false);
-    }
-  };
-
-  useEffect(() => {
+    };
     fetchData();
   }, []);
 
@@ -129,16 +36,13 @@ const LegislativeCouncil = () => {
   return (
     <>
       <div>
-        <Header />
         <section className="background">
           <div className="container-fluid justify-content-center background mb-0 section-top-space">
             <ul className="breadcrumb">
               <li>
-                <Link to="/">
-                  {lang === "mr" ? data.Link1.marathi : data.Link1.english}
-                </Link>
+                <Link to="/">{assembly[checkLang].link1}</Link>
               </li>
-              <li>{lang === "mr" ? data.Link2.marathi : data.Link2.english}</li>
+              <li>{assembly[checkLang].link2}</li>
             </ul>
             <div className="about-head text-center pb-2">
               <div
@@ -148,7 +52,7 @@ const LegislativeCouncil = () => {
                   position: "relative", // Add this line
                 }}
               >
-                {lang === "mr" ? data.title.marathi : data.title.english}
+                {assembly[checkLang].title}
                 <div
                   className="underline"
                   style={{
@@ -180,12 +84,10 @@ const LegislativeCouncil = () => {
                   <div className="mt-4" style={{ width: "100%" }}>
                     <img
                       src={
-                        serverData &&
-                        serverData.banner_image &&
                         API.baseUrl +
-                          serverData.banner_image.destination +
-                          "/" +
-                          serverData.banner_image.filename
+                        serverData?.banner_image?.destination +
+                        "/" +
+                        serverData?.banner_image?.filename
                       }
                       alt=" "
                       style={{
@@ -197,9 +99,7 @@ const LegislativeCouncil = () => {
                   </div>
                   <div className="section-info justify-content-end mt-4 ">
                     <p style={{ padding: "2%" }}>
-                      {lang === "mr"
-                        ? data.describe.marathi
-                        : data.describe.english}
+                      {serverData[checkLang].description}
                     </p>
                   </div>
                   <hr style={{ color: "green", width: "100%" }} />
@@ -208,9 +108,7 @@ const LegislativeCouncil = () => {
                       className="Bio-head mt-0 text-center justify-content-center "
                       style={{ fontSize: "16px", lineHeight: "22px" }}
                     >
-                      {lang === "mr"
-                        ? data.headerImp.marathi
-                        : data.headerImp.english}
+                      {assembly[checkLang].headerImp}
                       <hr
                         className="button_less"
                         style={{
@@ -257,254 +155,85 @@ const LegislativeCouncil = () => {
                   </div>
                 </Col>
                 <Col lg={6} md={6} sm={12} xs={12}>
-                  <Row className="mb-3 mt-1 justify-content-center ">
-                    {lang === "mr" && data.member.marathi !== "" ? (
-                      <>
-                        {data.member.marathi.slice(0, 1).map((item, index) => (
-                          <Row style={{ justifyContent: "center" }} key={index}>
-                            <Col
-                              lg={4}
-                              md={4}
-                              sm={12}
-                              xs={12}
-                              style={{ margin: 0, padding: "15px" }}
+                  <Row className="mb-3 mt-1 justify-content-center">
+                    {serverData[checkLang]?.legislative_council?.map(
+                      (item, index) => {
+                        if (index < 2) {
+                          return (
+                            <Row
+                              style={{ justifyContent: "center" }}
+                              key={index}
                             >
-                              <div className="img-boxing ">
-                                <div style={{ width: "100%" }}>
+                              <Col
+                                lg={4}
+                                md={4}
+                                sm={12}
+                                xs={12}
+                                style={{ margin: 0, padding: "15px" }}
+                              >
+                                <div className="img-boxing ">
                                   <img
                                     alt="img"
                                     src={
-                                      data.member.legislative_council &&
-                                      data.member.legislative_council.length > 0
-                                        ? API.baseUrl +
-                                          data.member.legislative_council[index]
-                                            .council_profile.destination +
-                                          "/" +
-                                          data.member.legislative_council[index]
-                                            .council_profile.filename
-                                        : ""
-                                    }
-                                    style={{ width: "100%" }}
-                                  />
-                                </div>
-
-                                <div className="box-bottom text-center">
-                                  <div className="nameHead">
-                                    {item.council_name}
-                                  </div>
-                                  <div className="name-info">
-                                    {item.council_description}
-                                  </div>
-                                </div>
-                              </div>
-                            </Col>
-                          </Row>
-                        ))}
-                        {data.member.marathi.slice(1, 2).map((item, index) => (
-                          <Row style={{ justifyContent: "center" }} key={index}>
-                            <Col
-                              lg={4}
-                              md={4}
-                              sm={12}
-                              xs={12}
-                              style={{ margin: 0, padding: "15px" }}
-                            >
-                              <div className="img-boxing ">
-                                <img
-                                  alt="img"
-                                  src={
-                                    data.member.legislative_council &&
-                                    data.member.legislative_council.length > 1
-                                      ? API.baseUrl +
-                                        data.member.legislative_council[1]
-                                          .council_profile.destination +
-                                        "/" +
-                                        data.member.legislative_council[1]
-                                          .council_profile.filename
-                                      : ""
-                                  }
-                                  style={{ width: "100%" }}
-                                />
-
-                                <div className="box-bottom text-center">
-                                  <div className="nameHead">
-                                    {item.council_name}
-                                  </div>
-                                  <div className="name-info">
-                                    {item.council_description}
-                                  </div>
-                                </div>
-                              </div>
-                            </Col>
-                          </Row>
-                        ))}
-                        {data.member.marathi.slice(2, 4).map((item, index) => (
-                          <Col
-                            lg={4}
-                            md={4}
-                            sm={12}
-                            xs={12}
-                            style={{ margin: 0, padding: "25px" }}
-                            key={index}
-                          >
-                            <div className="img-boxing ">
-                              <img
-                                alt="img"
-                                src={
-                                  data.member.legislative_council &&
-                                  data.member.legislative_council.length > 0
-                                    ? API.baseUrl +
-                                      data.member.legislative_council[index + 2]
-                                        .council_profile.destination +
+                                      API.baseUrl +
+                                      serverData?.legislative_council[index]
+                                        ?.council_profile?.destination +
                                       "/" +
-                                      data.member.legislative_council[index + 2]
-                                        .council_profile.filename
-                                    : ""
-                                }
-                                style={{ width: "100%" }}
-                              />
+                                      serverData?.legislative_council[index]
+                                        ?.council_profile?.filename
+                                    }
+                                    style={{ width: "100%" }}
+                                  />
 
-                              <div className="box-bottom text-center">
-                                <div className="nameHead">
-                                  {item.council_name}
+                                  <div className="box-bottom text-center">
+                                    <div className="nameHead">
+                                      {item.council_name}
+                                    </div>
+                                    <div className="name-info">
+                                      {item.council_description}
+                                    </div>
+                                  </div>
                                 </div>
-                                <div className="name-info">
-                                  {item.council_description}
-                                </div>
-                              </div>
-                            </div>
-                          </Col>
-                        ))}
-                      </>
-                    ) : data.member.marathi !== "" ? (
-                      <>
-                        {data.member.english.slice(0, 1).map((item, index) => (
-                          <Row style={{ justifyContent: "center" }} key={index}>
+                              </Col>
+                            </Row>
+                          );
+                        } else {
+                          return (
                             <Col
                               lg={4}
                               md={4}
                               sm={12}
                               xs={12}
-                              className="mb-0"
-                              style={{ margin: 0, padding: "15px" }}
+                              style={{ margin: 0, padding: "25px" }}
+                              key={index}
                             >
                               <div className="img-boxing ">
-                                <div style={{ width: "100%" }}>
-                                  <img
-                                    alt="img"
-                                    src={
-                                      data.member.legislative_council &&
-                                      data.member.legislative_council.length > 0
-                                        ? API.baseUrl +
-                                          data.member.legislative_council[index]
-                                            .council_profile.destination +
-                                          "/" +
-                                          data.member.legislative_council[index]
-                                            .council_profile.filename
-                                        : ""
-                                    }
-                                    style={{ width: "100%" }}
-                                  />
-                                </div>
-
-                                <div className="box-bottom text-center">
-                                  <div className="nameHead">
-                                    {item.council_name}
-                                  </div>
-                                  <div className="name-info">
-                                    {item.council_description}
-                                  </div>
-                                </div>
-                              </div>
-                            </Col>
-                          </Row>
-                        ))}
-                        {data.member.english.slice(1, 2).map((item, index) => (
-                          <Row style={{ justifyContent: "center" }} key={index}>
-                            <Col
-                              lg={4}
-                              md={4}
-                              sm={12}
-                              xs={12}
-                              className="mb-0"
-                              style={{ margin: 0, padding: "15px" }}
-                            >
-                              <div className="img-boxing ">
-                                <div style={{ width: "100%" }}>
-                                  <img
-                                    alt="img"
-                                    src={
-                                      data.member.legislative_council &&
-                                      data.member.legislative_council.length > 1
-                                        ? API.baseUrl +
-                                          data.member.legislative_council[1]
-                                            .council_profile.destination +
-                                          "/" +
-                                          data.member.legislative_council[1]
-                                            .council_profile.filename
-                                        : ""
-                                    }
-                                    style={{ width: "100%" }}
-                                  />
-                                </div>
-
-                                <div className="box-bottom text-center">
-                                  <div className="nameHead">
-                                    {item.council_name}
-                                  </div>
-                                  <div className="name-info">
-                                    {item.council_description}
-                                  </div>
-                                </div>
-                              </div>
-                            </Col>
-                          </Row>
-                        ))}
-                        {data.member.english.slice(2, 4).map((item, index) => (
-                          <Col
-                            lg={4}
-                            md={4}
-                            sm={12}
-                            xs={12}
-                            className="mb-0"
-                            style={{ margin: 0, padding: "25px" }}
-                            key={index}
-                          >
-                            <div className="img-boxing ">
-                              <div style={{ width: "100%" }}>
                                 <img
                                   alt="img"
                                   src={
-                                    data.member.legislative_council &&
-                                    data.member.legislative_council.length > 0
-                                      ? API.baseUrl +
-                                        data.member.legislative_council[
-                                          index + 2
-                                        ].council_profile.destination +
-                                        "/" +
-                                        data.member.legislative_council[
-                                          index + 2
-                                        ].council_profile.filename
-                                      : ""
+                                    API.baseUrl +
+                                    serverData?.legislative_council[index]
+                                      ?.council_profile?.destination +
+                                    "/" +
+                                    serverData?.legislative_council[index]
+                                      ?.council_profile?.filename
                                   }
                                   style={{ width: "100%" }}
                                 />
-                              </div>
 
-                              <div className="box-bottom text-center">
-                                <div className="nameHead">
-                                  {item.council_name}
-                                </div>
-                                <div className="name-info">
-                                  {item.council_description}
+                                <div className="box-bottom text-center">
+                                  <div className="nameHead">
+                                    {item.council_name}
+                                  </div>
+                                  <div className="name-info">
+                                    {item.council_description}
+                                  </div>
                                 </div>
                               </div>
-                            </div>
-                          </Col>
-                        ))}
-                      </>
-                    ) : (
-                      <>No data found</>
+                            </Col>
+                          );
+                        }
+                      }
                     )}
                   </Row>
                 </Col>
@@ -526,9 +255,7 @@ const LegislativeCouncil = () => {
                     }}
                   >
                     <div className="Bio-head mt-0 text-center justify-content-center ">
-                      {lang === "mr"
-                        ? data.structure.marathi
-                        : data.structure.english}
+                      {assembly[checkLang].structure}
                       <hr
                         className="button_less"
                         style={{
@@ -544,34 +271,23 @@ const LegislativeCouncil = () => {
                       />
                     </div>
                     <div>
-                      <img
+                      {/* <img
                         src={member4}
                         className="image"
                         alt="Member"
                         style={{ width: "100px" }}
-                      />
+                      /> */}
                     </div>
-                    <div className="m-1">
-                      {lang === "mr" ? data.name.marathi : data.name.english}
-                    </div>
-                    <div className="m-1">
-                      {lang === "mr" ? data.Type.marathi : data.Type.english}
-                    </div>
-                    <div className="m-1">
-                      {lang === "mr" ? data.Term.marathi : data.Term.english}
-                    </div>
-                    <div className="m-1">
-                      {lang === "mr" ? data.seats.marathi : data.seats.english}
-                    </div>
+                    <div className="m-1">{assembly[checkLang].name}</div>
+                    <div className="m-1">{assembly[checkLang].type}</div>
+                    {/* <div className="m-1">{assembly[checkLang].terms}</div> */}
+                    <div className="m-1">{assembly[checkLang].seats}</div>
                     <hr style={{ color: "green", width: "100%" }} />
                     <div
                       className="Bio-head  justify-content-center "
                       style={{ fontSize: "17px", lineHeight: "30px" }}
                     >
-                      {lang === "mr"
-                        ? data.bioSect.marathi
-                        : data.bioSect.english}
-
+                      {assembly[checkLang].bioSect}
                       <hr
                         className="button_less"
                         style={{
@@ -588,9 +304,7 @@ const LegislativeCouncil = () => {
                     </div>
                     <div>
                       <Link to="#" style={{ color: "black", fontSize: "13px" }}>
-                        {lang === "mr"
-                          ? data.biosect1.marathi
-                          : data.biosect1.english}
+                        {assembly[checkLang].bioSect1}
                       </Link>
                       <br />
                       <img
@@ -610,7 +324,6 @@ const LegislativeCouncil = () => {
                           src={councilgraph}
                           alt="img"
                           className="mb-4 mt-1 justify-content-start"
-                          // style={{ marginLeft: "-32%" }}
                         />
                       </div>
                     </div>
@@ -621,7 +334,6 @@ const LegislativeCouncil = () => {
           </div>
         </section>
       </div>
-      <Footer />
     </>
   );
 };

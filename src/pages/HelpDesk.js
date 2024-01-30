@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import Header from "../Components/Common/Header";
-import Footer from "../Components/Common/Footer";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
+import useLang from "../utils/useLang";
 
 const HelpDesk = () => {
-  const [lang, setLang] = useState("mr");
   const [errors, setErrors] = useState({});
 
   const data = {
@@ -78,18 +76,7 @@ const HelpDesk = () => {
     address: "",
   });
 
-  const location = useLocation();
-  const queryParams = new URLSearchParams(location.search);
-  const updateLocalStorage = (newLang) => {
-    localStorage.setItem("lang", newLang);
-  };
-
-  useEffect(() => {
-    const storedLang = localStorage.getItem("lang");
-    const newLang = queryParams.get("lang") || storedLang || "mr";
-    setLang(newLang);
-    updateLocalStorage(newLang);
-  }, [location.search]);
+  const { lang, checkLang } = useLang();
 
   const validateForm = () => {
     const newErrors = {};
@@ -135,7 +122,6 @@ const HelpDesk = () => {
 
   return (
     <div className="help-deskpage " style={{ overflow: "hidden" }}>
-      <Header />
       <section>
         <div className="container-fluid justify-content-center section-top-space">
           <ul className="breadcrumb">
@@ -352,8 +338,6 @@ const HelpDesk = () => {
           </Container>
         </div>
       </section>
-
-      <Footer />
     </div>
   );
 };

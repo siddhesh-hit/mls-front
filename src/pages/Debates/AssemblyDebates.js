@@ -2,16 +2,14 @@ import React from "react";
 import { useEffect, useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import { Link, useLocation } from "react-router-dom";
-import Header from "../../Components/Common/Header";
-import Footer from "../../Components/Common/Footer";
 import { Form, Button } from "react-bootstrap";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { getApi } from "../../service/axiosInterceptors";
 import LoaderComponents from "../../pages/loader";
+import useLang from "../../utils/useLang";
 
 const AssemblyDebates = () => {
-  const [lang, setLang] = useState("mr");
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
   const [isClicked, setIsClicked] = useState(true);
@@ -157,19 +155,7 @@ const AssemblyDebates = () => {
     },
   };
 
-  const location = useLocation();
-  const queryParams = new URLSearchParams(location.search);
-
-  const updateLocalStorage = (newLang) => {
-    localStorage.setItem("lang", newLang);
-  };
-
-  useEffect(() => {
-    const storedLang = localStorage.getItem("lang");
-    const newLang = queryParams.get("lang") || storedLang || "mr";
-    setLang(newLang);
-    updateLocalStorage(newLang);
-  }, [location.search]);
+  const { lang, checkLang } = useLang();
 
   const buttonClick = () => {
     setIsClicked(!isClicked);
@@ -206,7 +192,6 @@ const AssemblyDebates = () => {
 
   return (
     <>
-      <Header />
       <div>
         <section className=" justify-content-center section-top-space">
           <Container fluid>
@@ -790,7 +775,6 @@ const AssemblyDebates = () => {
           </Container>
         </section>
       </div>
-      <Footer />
     </>
   );
 };

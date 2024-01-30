@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Container, Row, Col, Button, Pagination } from "react-bootstrap";
-import Header from "../../Components/Common/Header";
-import Footer from "../../Components/Common/Footer";
 import news1 from "../../assets/Rectangle 6607.jpg";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
@@ -9,9 +7,9 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { getApi, getApiById } from "../../service/axiosInterceptors";
 import { API } from "../../config";
+import useLang from "../../utils/useLang";
 
 const MemberDetailEng = () => {
-  const [lang, setLang] = useState("mr");
   const [currentIndex, setCurrentIndex] = useState(0);
   const [activeTab, setActiveTab] = useState("profile");
 
@@ -142,7 +140,6 @@ const MemberDetailEng = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const id = location.search.split("=")[1];
-  const queryParams = new URLSearchParams(location.search);
 
   const updateLocalStorage = (newLang) => {
     localStorage.setItem("lang", newLang);
@@ -189,12 +186,7 @@ const MemberDetailEng = () => {
     }px)`;
   };
 
-  useEffect(() => {
-    const storedLang = localStorage.getItem("lang");
-    const newLang = queryParams.get("lang") || storedLang || "mr";
-    setLang(newLang);
-    updateLocalStorage(newLang);
-  }, [location.search]);
+  const { lang, checkLang } = useLang();
 
   useEffect(() => {
     updateSlider();
@@ -255,7 +247,6 @@ const MemberDetailEng = () => {
 
   return (
     <>
-      <Header />
       <section>
         <Container fluid className="Page-back">
           <div className="justify-content-center section-top-space">
@@ -1313,8 +1304,6 @@ const MemberDetailEng = () => {
           </div>
         </Container>
       </section>
-
-      <Footer />
     </>
   );
 };

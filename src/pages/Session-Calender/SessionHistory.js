@@ -1,19 +1,15 @@
 // import React, { useState, useEffect } from "react";
-// import Footer from "../../Components/Common/Footer";
 // import Row from "react-bootstrap/Row";
 // import Col from "react-bootstrap/Col";
 // import { Link, useLocation } from "react-router-dom";
 // import DatePicker from "react-datepicker";
 // import "react-datepicker/dist/react-datepicker.css";
 // import { Form, Container, InputGroup, Button } from "react-bootstrap";
-// import Header from "../../Components/Common/Header";
 // import "react-modern-calendar-datepicker/lib/DatePicker.css";
 // import { Calendar } from "react-modern-calendar-datepicker";
 // // import { useState } from "react";
 // const SessionHistory = () => {
-//   const [lang, setLang] = useState("mr");
-//   const location = useLocation();
-//   const queryParams = new URLSearchParams(location.search);
+//   const lang = useLang()
 //   const [startDate, setStartDate] = useState(new Date());
 //   const [endDate, setEndDate] = useState(new Date());
 
@@ -21,16 +17,6 @@
 //     from: null,
 //     to: null,
 //   });
-
-//   const updateLocalStorage = (newLang) => {
-//     localStorage.setItem("lang", newLang);
-//   };
-//   useEffect(() => {
-//     const storedLang = localStorage.getItem("lang");
-//     const newLang = queryParams.get("lang") || storedLang || "mr";
-//     setLang(newLang);
-//     updateLocalStorage(newLang);
-//   }, [location.search]);
 
 //   const data = {
 //     Link1: {
@@ -66,7 +52,6 @@
 //   };
 //   return (
 //     <>
-//       <Header />
 //       <section>
 //         <Container className="justify-content-center">
 //           {/* Search-field */}
@@ -178,8 +163,6 @@
 //           </Col>
 //         </Row>
 //       </Container>
-
-//       <Footer />
 //     </>
 //   );
 // };

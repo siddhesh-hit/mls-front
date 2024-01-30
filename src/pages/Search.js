@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from "react";
-import Header from "../../src/Components/Common/Header";
-import Footer from "../../src/Components/Common/Footer";
 import { Container } from "react-bootstrap";
 import { getApi } from "../service/axiosInterceptors";
 import { Link, useLocation } from "react-router-dom";
@@ -48,7 +46,6 @@ const Search = () => {
 
   return (
     <div>
-      <Header />
       <section className="searchdetails">
         <h3>
           <span>Search Details</span> : {search}
@@ -150,7 +147,6 @@ const Search = () => {
           </div>
         </Container>
       </section>
-      <Footer />
     </div>
   );
 };

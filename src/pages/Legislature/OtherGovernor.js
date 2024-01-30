@@ -1,6 +1,4 @@
 import React from "react";
-import Header from "../../Components/Common/Header";
-import Footer from "../../Components/Common/Footer";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import { Container, Accordion, Button } from "react-bootstrap";
@@ -11,9 +9,9 @@ import { getApiById } from "../../service/axiosInterceptors";
 import { API } from "../../config";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
+import useLang from "../../utils/useLang";
 
 const OtherGovernor = () => {
-  const [lang, setLang] = useState("mr");
   const [currentIndex, setCurrentIndex] = useState(0);
   const [server, setServer] = useState({});
   const [loader, setLoader] = useState(false);
@@ -63,7 +61,6 @@ const OtherGovernor = () => {
   };
   const location = useLocation();
   const id = location.search.split("=")[1];
-  const queryParams = new URLSearchParams(location.search);
 
   const nextSlide = () => {
     setCurrentIndex((currentIndex + 1) % 8);
@@ -114,17 +111,11 @@ const OtherGovernor = () => {
     updateSlider();
   }, [currentIndex]);
 
-  useEffect(() => {
-    const storedLang = localStorage.getItem("lang");
-    const newLang = queryParams.get("lang") || storedLang || "mr";
-    setLang(newLang);
-    updateLocalStorage(newLang);
-  }, [location.search]);
+  const { lang, checkLang } = useLang();
 
   return (
     <>
       <div>
-        <Header />
         <section className="section-top-space">
           <div className="Page-back">
             <ul className="breadcrumb">
@@ -500,8 +491,6 @@ const OtherGovernor = () => {
             </Row>
           </Container>
         </section>
-
-        <Footer />
       </div>
     </>
   );

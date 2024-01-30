@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Header from "../Components/Common/Header";
 import { Container, Form, InputGroup } from "react-bootstrap";
-import Footer from "../Components/Common/Footer";
 import { Link, useNavigate } from "react-router-dom";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -11,11 +9,11 @@ import { getApiById, postApi } from "../service/axiosInterceptors";
 import { useDispatch, useSelector } from "react-redux";
 import { Logout, setUserDetails } from "../redux/reducers/UserReducer";
 import { API } from "../config";
+import useLang from "../utils/useLang";
 const Profile = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const state = useSelector((state) => state.UserReducer);
-  const [lang, setLang] = useState("mr");
   const [activeTab, setActiveTab] = useState("BasicInfo");
   const [errors, setErrors] = useState({});
   const [email, setEmail] = useState("");
@@ -109,8 +107,6 @@ const Profile = () => {
       Confidential: "Confidential documents Details",
     },
   });
-  const location = useLocation();
-  const queryParams = new URLSearchParams(location.search);
 
   const validateForm = () => {
     const newErrors = {};
@@ -155,31 +151,11 @@ const Profile = () => {
       });
   };
 
-  const updateLocalStorage = (newLang) => {
-    localStorage.setItem("lang", newLang);
-  };
-
-  useEffect(() => {
-    const storedLang = localStorage.getItem("lang");
-    const newLang = queryParams.get("lang") || storedLang || "mr";
-    setLang(newLang);
-    updateLocalStorage(newLang);
-    state._id &&
-      getApiById("/user", state._id)
-        .then((res) => res.data.data && dispatch(setUserDetails(res.data.data)))
-        .catch((err) => {
-          if (err.response.status === 401) {
-            dispatch(setUserDetails({}));
-            navigate("/");
-          }
-        });
-  }, [location.search]);
-  console.log(">>>>>>", state);
+  const { lang, checkLang } = useLang();
 
   return (
     <>
       <div>
-        <Header />
         <section className="background mb-0">
           <Container fluid>
             <div
@@ -911,7 +887,6 @@ const Profile = () => {
             </div>
           </Container>
         </section>
-        <Footer />
       </div>
     </>
   );

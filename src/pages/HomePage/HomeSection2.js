@@ -1,73 +1,54 @@
 import React from "react";
-import homevidhan from "../../assets/_MG_5418 1.jpg";
 import { useEffect, useState } from "react";
-import { Col, Row, Carousel } from "react-bootstrap";
-import { Link, useLocation } from "react-router-dom";
-import { Button } from "react-bootstrap";
+import { Col, Row, Carousel, Button } from "react-bootstrap";
+import { Link } from "react-router-dom";
+
+import homevidhan from "../../assets/_MG_5418 1.jpg";
 import Nagpur from "../../assets/nagpur.jpg";
 import Mumbai from "../../assets/mumbai.jpg";
-import { getApi } from "../../service/axiosInterceptors";
 import LoaderComponents from "../loader";
 
+import { getApi } from "../../service/axiosInterceptors";
+import { home } from "../../constant";
+
+import useLang from "../../utils/useLang";
+
 const HomeSection1 = () => {
-  const [lang, setLang] = useState("mr");
   const [loading, setLoading] = useState(true);
-  
   const [data, setData] = useState({
-    describelink: {
-      marathi: "पुढे वाचा ",
-      english: "Read More",
-    },
     marathi: {
-      title: " विधानमंडळ",
-      description: "",
+      vidhanMandal: "",
     },
     english: {
-      title: "Vidhan Mandal",
-      description: "",
+      vidhanMandal: "",
     },
     banner: {},
   });
 
-  const location = useLocation();
-  const queryParams = new URLSearchParams(location.search);
-
-  const updateLocalStorage = (newLang) => {
-    localStorage.setItem("lang", newLang);
-  };
+  const { lang, checkLang } = useLang();
 
   useEffect(() => {
-    const storedLang = localStorage.getItem("lang");
-    const newLang = queryParams.get("lang") || storedLang || "mr";
-    setLang(newLang);
-    updateLocalStorage(newLang);
-  }, [location.search]);
-
-  const fetchData = async () => {
-    try {
-      await getApi("mandal/active")
-        .then((res) => {
+    const fetchData = async () => {
+      try {
+        await getApi("mandal/active").then((res) => {
           setData((prev) => ({
             ...prev,
             marathi: {
               ...prev.marathi,
-              description: res.data.data.marathi.about_us[0].description,
+              vidhanMandal: res.data.data.marathi.about_us[0].description,
             },
             english: {
               ...prev.english,
-              description: res.data.data.english.about_us[0].description,
+              vidhanMandal: res.data.data.english.about_us[0].description,
             },
             banner: res.data.data.mandal_image[0].image,
           }));
-        })
-    } catch (err) {
-      console.log(err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
+        });
+        setLoading(false);
+      } catch (err) {
+        console.log(err);
+      }
+    };
     fetchData();
   }, []);
 
@@ -126,7 +107,7 @@ const HomeSection1 = () => {
                 <div className="topic-info text-center">
                   <div className="section-title d-flex justify-content-center align-items-center">
                     <b>
-                      {lang === "mr" ? data.marathi.title : data.english.title}
+                      {home[checkLang].vidhanMandal_title}
                       <hr
                         className=" d-flex justify-content-center align-items-center mt-0"
                         style={{
@@ -141,9 +122,7 @@ const HomeSection1 = () => {
                     </b>
                   </div>
                   <div className="info" style={{ lineHeight: "25px" }}>
-                    {lang === "mr"
-                      ? data.marathi.description
-                      : data.english.description}
+                    {data[checkLang].vidhanMandal}
                   </div>
                   <Button
                     style={{
@@ -159,12 +138,12 @@ const HomeSection1 = () => {
                         style={{
                           fontSize: "15px",
                           color: "white",
-                          fontFamily: "Sakal Marathi",fontWeight:"400"
+                          fontFamily: "Sakal Marathi",
+                          fontWeight: "400",
                         }}
                       >
-                        {lang === "mr"
-                          ? data.describelink.marathi
-                          : data.describelink.english}
+                        {home[checkLang].describeLink}
+
                         <i className="fa fa-chevron-right "></i>
                         <i className="fa fa-chevron-right "></i>
                       </b>

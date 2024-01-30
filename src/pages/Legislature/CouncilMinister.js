@@ -3,36 +3,20 @@
 // import { Col, Container, Row, Carousel } from "react-bootstrap";
 // import { Link, useLocation } from "react-router-dom";
 // import { Button } from "react-bootstrap";
-// import Header from "../../Components/Common/Header";
-// import Footer from "../../Components/Common/Footer";
 
 // const CouncilMinister = () => {
-//   const [lang, setLang] = useState("mr");
 //   const [data, setData] = useState({
 //     marathi: {},
 //     english: {},
 //     banner: {},
 //   });
 
-//   const location = useLocation();
-//   const queryParams = new URLSearchParams(location.search);
-
-//   const updateLocalStorage = (newLang) => {
-//     localStorage.setItem("lang", newLang);
-//   };
-//   useEffect(() => {
-//     const storedLang = localStorage.getItem("lang");
-//     const newLang = queryParams.get("lang") || storedLang || "mr";
-//     setLang(newLang);
-//     updateLocalStorage(newLang);
-//   }, [location.search]);
-
+//  const lang = useLang()
 //   console.log(data);
 
 //   return (
 //     <>
 //       <div>
-//         <Header />
 //         <div style={{ paddingTop: "15%" }}>
 //           <ul className="breadcrumb">
 //             <li>
@@ -192,7 +176,6 @@
 //             </Container>
 //           </section>
 //         </div>
-//         <Footer />
 //       </div>
 //     </>
 //   );
