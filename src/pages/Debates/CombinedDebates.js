@@ -15,7 +15,7 @@ const CombinedDebates = () => {
   const [debate, setDebate] = useState([]);
   const [search, setSearch] = useState(null);
 
-  const { lang, checkLang } = useLang();
+  const { checkLang } = useLang();
 
   const years = Array.from(
     { length: 30 },

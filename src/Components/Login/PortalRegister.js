@@ -9,15 +9,15 @@ import { postApi } from "../../service/axiosInterceptors";
 import { setUserDetails } from "../../redux/reducers/UserReducer";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
-import { hasFormSubmit } from "@testing-library/user-event/dist/utils";
+// import { hasFormSubmit } from "@testing-library/user-event/dist/utils";
 
 const PortalRegisterEng = () => {
   const dispatch = useDispatch();
-  var lowerCaseLetters = /[a-z]/g;
+  // var lowerCaseLetters = /[a-z]/g;
   // Validate capital letters
-  var upperCaseLetters = /[A-Z]/g;
+  // var upperCaseLetters = /[A-Z]/g;
   const [passwordType, setPasswordType] = useState("password");
-  const [passwordInput, setPasswordInput] = useState("");
+  // const [passwordInput, setPasswordInput] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -26,9 +26,9 @@ const PortalRegisterEng = () => {
   const togglePassword = () => {
     setPasswordType(passwordType === "password" ? "text" : "password");
   };
-  const handlePasswordChange = (event) => {
-    setPasswordInput(event.target.value);
-  };
+  // const handlePasswordChange = (event) => {
+  //   setPasswordInput(event.target.value);
+  // };
   const validateForm = () => {
     const newErrors = {};
 
@@ -111,6 +111,7 @@ const PortalRegisterEng = () => {
   useEffect(() => {
     generateCaptcha();
     setCaptcha();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleRefreshClick = () => {
@@ -245,12 +246,12 @@ const PortalRegisterEng = () => {
                 </Link>
               </div>
 
-              <a className="new_account">
+              <div className="new_account">
                 खाते नाही?
                 <span>
                   <Link to="/SignupPortal">साइन अप करा</Link>
                 </span>
-              </a>
+              </div>
             </div>
           </Col>
         </Row>

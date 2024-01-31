@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import useLang from "../utils/useLang";
 
@@ -76,7 +76,7 @@ const HelpDesk = () => {
     address: "",
   });
 
-  const { lang, checkLang } = useLang();
+  const { lang } = useLang();
 
   const validateForm = () => {
     const newErrors = {};

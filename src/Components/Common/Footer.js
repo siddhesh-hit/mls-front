@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import logo from "../../assets/logo.png";
-import { Link, useLocation } from "react-router-dom";
-import { putApi } from "../../service/axiosInterceptors";
+import { Link } from "react-router-dom";
 import axios from "axios";
 
 import useLang from "../../utils/useLang";
@@ -38,7 +36,7 @@ const Footer = () => {
     ],
   };
 
-  const { lang, checkLang } = useLang();
+  const { checkLang } = useLang();
 
   const counterFooter = async () => {
     await axios
@@ -69,14 +67,10 @@ const Footer = () => {
               className="  flex-column align-items-start"
             >
               &copy; {new Date().getFullYear()}
-              {data[lang === "mr" ? "marathi" : "english"].map(
-                (item) => item.reserved
-              )}
+              {data[checkLang].map((item) => item.reserved)}
             </Col>
             <Col lg={2} md={6} sm={12} xs={12} className="d-flex counter ">
-              {data[lang === "mr" ? "marathi" : "english"].map(
-                (item) => item.visitor
-              )}
+              {data[checkLang].map((item) => item.visitor)}
               <div style={{ backgroundColor: "black", borderRadius: "5px" }}>
                 {count}
               </div>
@@ -92,34 +86,26 @@ const Footer = () => {
                   style={{ paddingRight: 0 }}
                 >
                   <a href="#" style={{ textDecoration: "none" }}>
-                    {data[lang === "mr" ? "marathi" : "english"].map(
-                      (item) => item.Terms
-                    )}
+                    {data[checkLang].map((item) => item.Terms)}
                   </a>
                 </Col>
                 <Col lg={3} md={3} sm={12} xs={12} style={{ paddingRight: 0 }}>
                   <a href="#" style={{ textDecoration: "none" }}>
-                    {data[lang === "mr" ? "marathi" : "english"].map(
-                      (item) => item.Privacy
-                    )}
+                    {data[checkLang].map((item) => item.Privacy)}
                     <div className="vertical-lines p-0" />
                   </a>
                 </Col>
 
                 <Col lg={3} md={3} sm={12} xs={12} style={{ paddingRight: 0 }}>
                   <Link to="/FeedBack" style={{ textDecoration: "none" }}>
-                    {data[lang === "mr" ? "marathi" : "english"].map(
-                      (item) => item.feedback
-                    )}
+                    {data[checkLang].map((item) => item.feedback)}
                     <div className="vertical-lines p-0" />
                   </Link>
                 </Col>
 
                 <Col lg={3} md={3} sm={12} xs={12} className="text-center">
                   <Link to="/HelpDesk" style={{ textDecoration: "none" }}>
-                    {data[lang === "mr" ? "marathi" : "english"].map(
-                      (item) => item.Help
-                    )}
+                    {data[checkLang].map((item) => item.Help)}
                     <div className="vertical-lines p-0" />
                   </Link>
                 </Col>

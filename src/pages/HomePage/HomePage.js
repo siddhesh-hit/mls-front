@@ -14,7 +14,7 @@ import { home, homeLink } from "../../constant";
 import useLang from "../../utils/useLang";
 
 const HomePage = () => {
-  const { lang, checkLang } = useLang();
+  const { checkLang } = useLang();
   const [modalShow, setModalShow] = useState(true);
 
   return (

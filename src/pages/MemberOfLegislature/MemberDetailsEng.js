@@ -19,7 +19,7 @@ const MemberDetailEng = () => {
   const [debates, setDebates] = useState([]);
   const [filtered, setFiltered] = useState([]);
 
-  const { lang, checkLang } = useLang();
+  const { checkLang } = useLang();
 
   const navigate = useNavigate();
   const location = useLocation();

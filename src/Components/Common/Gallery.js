@@ -7,9 +7,9 @@ import { getApi } from "../../service/axiosInterceptors";
 
 const Gallery = ({ link = "gallery" }) => {
   const [gallery, setGallery] = useState([]);
-  const [textWidth, setTextWidth] = useState(0);
+  // const [textWidth, setTextWidth] = useState(0);
 
-  const { lang, checkLang } = useLang();
+  const { checkLang } = useLang();
 
   let currentSlide = 0;
   const galleryItems = document.querySelectorAll(".gallery-item");
@@ -52,18 +52,18 @@ const Gallery = ({ link = "gallery" }) => {
     fetchData();
   }, []);
 
-  useEffect(() => {
-    const textElement = document.getElementById("about-text");
-    if (textElement) {
-      setTextWidth(textElement.offsetWidth);
-    }
-  }, [lang]);
+  // useEffect(() => {
+  //   const textElement = document.getElementById("about-text");
+  //   if (textElement) {
+  //     setTextWidth(textElement.offsetWidth);
+  //   }
+  // }, [lang]);
 
   return (
     <section>
       <div className="photo-galleryhome text-center mt-2 ">
         <div className="section-head text-center mt-5">
-          {aboutUs[lang === "mr" ? "marathi" : "english"].photoTitle}
+          {aboutUs[checkLang].photoTitle}
         </div>
         <hr
           className="button_less mt-2"

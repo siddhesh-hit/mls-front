@@ -109,9 +109,10 @@ const OtherGovernor = () => {
 
   useEffect(() => {
     updateSlider();
-  }, [currentIndex]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  const { lang, checkLang } = useLang();
+  const { lang } = useLang();
 
   return (
     <>

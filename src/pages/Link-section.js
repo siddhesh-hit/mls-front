@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Row, Container } from "react-bootstrap";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import useLang from "../utils/useLang";
 const LinkSection = () => {
   const data = {
@@ -14,7 +14,7 @@ const LinkSection = () => {
     },
   };
 
-  const { lang, checkLang } = useLang();
+  const { lang } = useLang();
   return (
     <>
       <div>

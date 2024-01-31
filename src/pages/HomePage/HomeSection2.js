@@ -25,7 +25,7 @@ const HomeSection1 = () => {
     banner: {},
   });
 
-  const { lang, checkLang } = useLang();
+  const { checkLang } = useLang();
 
   useEffect(() => {
     const fetchData = async () => {

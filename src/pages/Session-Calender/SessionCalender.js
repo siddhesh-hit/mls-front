@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { Form, Container, InputGroup, Button } from "react-bootstrap";
@@ -50,7 +50,7 @@ const SessionCalender = () => {
     },
   };
 
-  const { lang, checkLang } = useLang();
+  const { lang } = useLang();
 
   return (
     <>

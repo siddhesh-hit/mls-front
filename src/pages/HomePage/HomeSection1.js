@@ -30,7 +30,7 @@ const HomeSection1 = () => {
     },
   });
 
-  const { lang, checkLang } = useLang();
+  const { checkLang } = useLang();
 
   useEffect(() => {
     const fetchData = async () => {

@@ -1,13 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Container, Form, InputGroup } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import member1 from "../assets/member/dfadanvis.png";
-import { useLocation } from "react-router-dom";
-import { getApiById, postApi } from "../service/axiosInterceptors";
+import { postApi } from "../service/axiosInterceptors";
 import { useDispatch, useSelector } from "react-redux";
-import { Logout, setUserDetails } from "../redux/reducers/UserReducer";
+import { Logout } from "../redux/reducers/UserReducer";
 import { API } from "../config";
 import useLang from "../utils/useLang";
 const Profile = () => {
@@ -17,7 +15,7 @@ const Profile = () => {
   const [activeTab, setActiveTab] = useState("BasicInfo");
   const [errors, setErrors] = useState({});
   const [email, setEmail] = useState("");
-  const [data, setData] = useState({
+  const data = {
     Link1: {
       marathi: "मुख्यपृष्ठ",
       english: "Home",
@@ -106,7 +104,7 @@ const Profile = () => {
       },
       Confidential: "Confidential documents Details",
     },
-  });
+  };
 
   const validateForm = () => {
     const newErrors = {};
@@ -151,7 +149,7 @@ const Profile = () => {
       });
   };
 
-  const { lang, checkLang } = useLang();
+  const { lang } = useLang();
 
   return (
     <>
