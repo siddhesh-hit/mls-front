@@ -18,7 +18,7 @@ const AssemblyMemberEng = () => {
   const [server, setServer] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const { lang, checkLang } = useLang();
+  const { checkLang } = useLang();
 
   useEffect(() => {
     const fetchData = async () => {

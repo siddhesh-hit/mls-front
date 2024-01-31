@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import React from "react";
+import { Link } from "react-router-dom";
 import { InputGroup } from "react-bootstrap";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import useLang from "../utils/useLang";
@@ -66,7 +66,7 @@ const FeedBack = () => {
     },
   };
 
-  const { lang, checkLang } = useLang();
+  const { lang } = useLang();
   return (
     <div className="help-deskpage" style={{ overflow: "hidden" }}>
       <section>

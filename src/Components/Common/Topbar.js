@@ -1,18 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { NavDropdown, Nav } from "react-bootstrap";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { API } from "../../config";
-import { getApi, getApiById } from "../../service/axiosInterceptors";
+import { getApiById } from "../../service/axiosInterceptors";
 import { useDispatch, useSelector } from "react-redux";
 import { Logout, setUserDetails } from "../../redux/reducers/UserReducer";
 import useLang from "../../utils/useLang";
 
 const Topbar = () => {
-  const [notification, setNotification] = useState([]);
+  // const [notification, setNotification] = useState([]);
 
   const state = useSelector((state) => state.UserReducer);
   const dispatch = useDispatch();
-  const { lang, checkLang } = useLang();
+  const { lang } = useLang();
 
   const data = {
     fontI: {
@@ -122,6 +122,7 @@ const Topbar = () => {
             dispatch(Logout());
           }
         });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -156,7 +157,7 @@ const Topbar = () => {
                         : data.message.english}
                     </div>
 
-                    {notification &&
+                    {/* {notification &&
                       notification.length > 0 &&
                       notification.map((item, index, array) => (
                         <React.Fragment key={index}>
@@ -167,7 +168,7 @@ const Topbar = () => {
                             <hr style={{ opacity: 0 }} className=" m-0" />
                           )}
                         </React.Fragment>
-                      ))}
+                      ))} */}
                   </div>
                 </div>
                 <Link className="nav-link-top" to="#">

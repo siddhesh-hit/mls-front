@@ -13,7 +13,7 @@ import { toast } from "react-toastify";
 const PortalRegisterEng = () => {
   const dispatch = useDispatch();
   const [passwordType, setPasswordType] = useState("password");
-  const [passwordInput, setPasswordInput] = useState("");
+  // const [passwordInput, setPasswordInput] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
@@ -22,9 +22,9 @@ const PortalRegisterEng = () => {
   const togglePassword = () => {
     setPasswordType(passwordType === "password" ? "text" : "password");
   };
-  const handlePasswordChange = (event) => {
-    setPasswordInput(event.target.value);
-  };
+  // const handlePasswordChange = (event) => {
+  //   setPasswordInput(event.target.value);
+  // };
 
   const validateForm = () => {
     const newErrors = {};
@@ -151,12 +151,12 @@ const PortalRegisterEng = () => {
                 </Link>
               </div>
 
-              <a className="new_account">
+              <div className="new_account">
                 Don’t have an Account ?
                 <span>
                   <Link to="/SignupPortalEng">Sign up</Link>
                 </span>
-              </a>
+              </div>
             </div>
           </Col>
         </Row>

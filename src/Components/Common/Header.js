@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Topbar from "./Topbar";
 import { Link } from "react-router-dom";
 import logo from "../../assets/logo.png";
 import { Navbar, NavDropdown, Nav, Offcanvas } from "react-bootstrap";
 import { useLocation } from "react-router-dom";
-import { getApi } from "../../service/axiosInterceptors";
 import useLang from "../../utils/useLang";
 
 const Header = () => {
@@ -14,8 +13,8 @@ const Header = () => {
 
   const location = useLocation();
 
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  // const handleClose = () => setShow(!show);
+  const handleShow = () => setShow(!show);
 
   const data = {
     search: {
@@ -110,7 +109,7 @@ const Header = () => {
     },
   };
 
-  const { lang, checkLang } = useLang();
+  const { lang } = useLang();
 
   return (
     <>

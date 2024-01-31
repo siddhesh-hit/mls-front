@@ -30,7 +30,8 @@ const Slider = ({ data = [], field, keyId }) => {
 
   useEffect(() => {
     updateSlider();
-  }, [currentIndex]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <Container fluid className="mt-4 mb-4">

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Container, Row, Col, Accordion } from "react-bootstrap";
 import { API } from "../../config";
 import { getApi } from "../../service/axiosInterceptors";
@@ -60,7 +60,7 @@ const FormerGovernor = () => {
     }
   };
 
-  const { lang, checkLang } = useLang();
+  const { lang } = useLang();
 
   useEffect(() => {
     fetchData();

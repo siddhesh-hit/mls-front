@@ -26,11 +26,11 @@ const SignupPortalEng = () => {
   const [image, setImage] = useState(null);
 
   // Calculate age
-  const birthdate = new Date(formdata.dob);
-  const currentDate = new Date();
-  const age = currentDate.getFullYear() - birthdate.getFullYear();
+  // const birthdate = new Date(formdata.dob);
+  // const currentDate = new Date();
+  // const age = currentDate.getFullYear() - birthdate.getFullYear();
 
-  const monthDiff = currentDate.getMonth() - birthdate.getMonth();
+  // const monthDiff = currentDate.getMonth() - birthdate.getMonth();
 
   const [passwordType, setPasswordType] = useState("password");
   const navigate = useNavigate();

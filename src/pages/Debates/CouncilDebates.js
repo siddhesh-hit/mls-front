@@ -15,7 +15,7 @@ const CouncilDebates = () => {
   const [search, setSearch] = useState(null);
   const [loader, setLoader] = useState(null);
 
-  const { lang, checkLang } = useLang();
+  const { checkLang } = useLang();
 
   const years = Array.from(
     { length: 30 },

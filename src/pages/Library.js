@@ -1,7 +1,7 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { getApi } from "../service/axiosInterceptors";
 import { API } from "../config";
 import LoaderComponents from "./loader";
@@ -14,7 +14,6 @@ import samplePDF6 from "../assets/Documents/Library Contact.pdf";
 import useLang from "../utils/useLang";
 const Library = () => {
   const [gallery, setGallery] = useState([]);
-  const [newData, setNewData] = useState({});
   const [loading, setLoading] = useState(true);
 
   const [data, setData] = useState({
@@ -85,7 +84,7 @@ const Library = () => {
 
   showSlide(currentSlide);
 
-  const { lang, checkLang } = useLang();
+  const { lang } = useLang();
 
   function showSlide(index) {
     galleryItems.forEach((item, i) => {
@@ -101,7 +100,6 @@ const Library = () => {
     try {
       await getApi("library/active")
         .then((res) => {
-          setNewData(res.data.data);
           setData((prev) => ({
             ...prev,
             describe: {

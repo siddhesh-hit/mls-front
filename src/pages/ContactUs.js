@@ -1,7 +1,6 @@
-import React, { useState } from "react";
-import { useEffect } from "react";
+import React from "react";
 import { Container } from "react-bootstrap";
-import { useLocation, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
@@ -47,7 +46,7 @@ const ContactUs = () => {
     ],
   };
 
-  const { lang, checkLang } = useLang();
+  const { lang } = useLang();
 
   return (
     <>
@@ -148,11 +147,11 @@ const ContactUs = () => {
               </Col>
               <Col lg={6} md={6} sm={12} xs={12} className="maps p-4 pt-0">
                 <iframe
+                  title="This is a unique title"
                   src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3774.107430801442!2d72.82118112424786!3d18.926638356646407!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7d1e96d790c07%3A0x5240aee242919df5!2sMaharashtra%20Vidhan%20Bhavan!5e0!3m2!1sen!2sin!4v1700648480582!5m2!1sen!2sin"
                   width="400"
                   height="300"
                   style={{ border: 0 }}
-                  title=""
                   allowfullscreen=""
                   loading="lazy"
                   referrerpolicy="no-referrer-when-downgrade"

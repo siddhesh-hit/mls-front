@@ -14,7 +14,7 @@ import useLang from "../utils/useLang";
 const HomePage = () => {
   const [loading, setLoading] = useState(true);
 
-  const { lang, checkLang } = useLang();
+  const { checkLang } = useLang();
 
   const [data, setData] = useState({
     marathi: [],
