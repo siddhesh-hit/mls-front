@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from "react";
-import Footer from "../../Components/Common/Footer";
-import Header from "../../Components/Common/Header";
 import { Col, Container, Row } from "react-bootstrap";
 import legmem from "../../../src/assets/homeicons/legismember.svg";
 import debate from "../../../src/assets/homeicons/debate.svg";
@@ -50,7 +48,6 @@ const NewHome = () => {
 
   return (
     <div>
-      <Header />
       <section className="homepageback">
         <h1>
           A Comprehensive Knowledge Repository - Your Portal to Explore

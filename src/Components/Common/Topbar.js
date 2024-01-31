@@ -5,12 +5,14 @@ import { API } from "../../config";
 import { getApi, getApiById } from "../../service/axiosInterceptors";
 import { useDispatch, useSelector } from "react-redux";
 import { Logout, setUserDetails } from "../../redux/reducers/UserReducer";
+import useLang from "../../utils/useLang";
 
 const Topbar = () => {
-  const dispatch = useDispatch();
-  const state = useSelector((state) => state.UserReducer);
   const [notification, setNotification] = useState([]);
-  const [lang, setLang] = useState("en");
+
+  const state = useSelector((state) => state.UserReducer);
+  const dispatch = useDispatch();
+  const { lang, checkLang } = useLang();
 
   const data = {
     fontI: {
@@ -57,14 +59,11 @@ const Topbar = () => {
     },
   };
 
-  const navigate = useNavigate();
-  const location = useLocation();
-  const queryParams = new URLSearchParams(location.search);
-
   let increaseFontFlag = true;
   let keepFontFlag = true;
   let decreaseFontFlag = true;
   let fontSize = 16;
+
   function increaseFont() {
     if (increaseFontFlag) {
       fontSize = fontSize + 1;
@@ -102,30 +101,16 @@ const Topbar = () => {
     });
   }
 
-  const handleLanguage = (newLang) => {
-    queryParams.set("lang", newLang);
-    const newPath = location.pathname + `?${queryParams.toString()}`;
-    navigate(newPath);
-    setLang(newLang);
-    updateLocalStorage(newLang);
-  };
-
-  const updateLocalStorage = (newLang) => {
-    localStorage.setItem("lang", newLang);
-  };
-
-  useEffect(() => {
-    const storedLang = localStorage.getItem("lang");
-    const newLang = queryParams.get("lang") || storedLang || "mr";
-    setLang(newLang);
-    updateLocalStorage(newLang);
-  }, [location.search]);
-
   // const fetchData = async () => {
   //   await getApi("/visit/notification")
   //     .then((res) => setNotification(res.data.data))
   //     .catch((err) => console.log(err));
   // };
+
+  const handleLanguage = (newLang) => {
+    window.localStorage.setItem("lang", newLang);
+    window.dispatchEvent(new CustomEvent("langChange"));
+  };
 
   useEffect(() => {
     // fetchData();
@@ -138,7 +123,7 @@ const Topbar = () => {
           }
         });
   }, []);
-  // console.log("state", state);
+
   return (
     <>
       <div className="top_menu">

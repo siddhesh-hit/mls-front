@@ -2,8 +2,6 @@ import React from "react";
 import { useEffect, useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import { Link, useLocation } from "react-router-dom";
-import Header from "../Components/Common/Header";
-import Footer from "../Components/Common/Footer";
 import { getApi } from "../service/axiosInterceptors";
 import { API } from "../config";
 import LoaderComponents from "./loader";
@@ -13,10 +11,10 @@ import samplePDF3 from "../assets/Documents/04- Library Software.pdf";
 import samplePDF4 from "../assets/Documents/05- Library Committee.pdf";
 import samplePDF5 from "../assets/Documents/06- Library Rules.pdf";
 import samplePDF6 from "../assets/Documents/Library Contact.pdf";
+import useLang from "../utils/useLang";
 const Library = () => {
   const [gallery, setGallery] = useState([]);
   const [newData, setNewData] = useState({});
-  const [lang, setLang] = useState("mr");
   const [loading, setLoading] = useState(true);
 
   const [data, setData] = useState({
@@ -68,9 +66,6 @@ const Library = () => {
     },
   });
 
-  const location = useLocation();
-  const queryParams = new URLSearchParams(location.search);
-
   let currentSlide = 0;
   const galleryItems = document.querySelectorAll(".gallery-item");
 
@@ -89,16 +84,8 @@ const Library = () => {
   }
 
   showSlide(currentSlide);
-  const updateLocalStorage = (newLang) => {
-    localStorage.setItem("lang", newLang);
-  };
 
-  useEffect(() => {
-    const storedLang = localStorage.getItem("lang");
-    const newLang = queryParams.get("lang") || storedLang || "mr";
-    setLang(newLang);
-    updateLocalStorage(newLang);
-  }, [location.search]);
+  const { lang, checkLang } = useLang();
 
   function showSlide(index) {
     galleryItems.forEach((item, i) => {
@@ -149,7 +136,6 @@ const Library = () => {
 
   return (
     <>
-      <Header />
       <div>
         <section className=" justify-content-center section-top-space">
           <Container fluid>
@@ -461,7 +447,6 @@ const Library = () => {
           </Container>
         </section>
       </div>
-      <Footer />
     </>
   );
 };

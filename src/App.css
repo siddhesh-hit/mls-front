@@ -985,6 +985,12 @@ video {
   object-fit: cover;
 }
 
+.imageMem {
+  border-radius: 50%;
+  height: 40px;
+  object-fit: contain;
+}
+
 .sample-heading {
   padding: 0em;
   border: 0.25em solid #ce5d3d;
@@ -3035,4 +3041,25 @@ table.table-lightt.table.table-bordered {
 .search-boss .search-btn button {
   border-radius: 100px;
   height: 45px;
+}
+
+.closebutton.modal-header button {
+  border-radius: 100px;
+  border: solid #000088 2px;
+  position: absolute;
+  right: 15px;
+  top: 15px;
+  opacity: 1;
+  z-index: 9;
+}
+
+.closebutton.modal-header {
+  padding: 0px;
+}
+
+.smfkdnmk.modal-body p {
+  margin-top: 30px;
+  margin-bottom: 30px;
+  font-size: 15px;
+  text-align: center;
 }

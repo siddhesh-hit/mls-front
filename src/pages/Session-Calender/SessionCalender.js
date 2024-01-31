@@ -1,17 +1,15 @@
 import React, { useState, useEffect } from "react";
-import Footer from "../../Components/Common/Footer";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import { Link, useLocation } from "react-router-dom";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { Form, Container, InputGroup, Button } from "react-bootstrap";
-import Header from "../../Components/Common/Header";
 import "react-modern-calendar-datepicker/lib/DatePicker.css";
 import { Calendar } from "react-modern-calendar-datepicker";
+import useLang from "../../utils/useLang";
 // import { useState } from "react";
 const SessionCalender = () => {
-  const [lang, setLang] = useState("mr");
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
   const [selectedDayRange, setSelectedDayRange] = useState({
@@ -52,21 +50,10 @@ const SessionCalender = () => {
     },
   };
 
-  const location = useLocation();
-  const queryParams = new URLSearchParams(location.search);
-  const updateLocalStorage = (newLang) => {
-    localStorage.setItem("lang", newLang);
-  };
-  useEffect(() => {
-    const storedLang = localStorage.getItem("lang");
-    const newLang = queryParams.get("lang") || storedLang || "mr";
-    setLang(newLang);
-    updateLocalStorage(newLang);
-  }, [location.search]);
+  const { lang, checkLang } = useLang();
 
   return (
     <>
-      <Header />
       <section className="section-top-space">
         <div className="container-fluid">
           <ul className="breadcrumb">
@@ -352,7 +339,6 @@ const SessionCalender = () => {
           </Row>
         </Container>
       </section>
-      <Footer />
     </>
   );
 };

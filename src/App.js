@@ -4,6 +4,9 @@ import Routesfile from "./Routesfile";
 import { store } from "./redux/store";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import "react-datepicker/dist/react-datepicker.css";
 
 function App() {
   return (

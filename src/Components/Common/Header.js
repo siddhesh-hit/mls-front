@@ -5,18 +5,15 @@ import logo from "../../assets/logo.png";
 import { Navbar, NavDropdown, Nav, Offcanvas } from "react-bootstrap";
 import { useLocation } from "react-router-dom";
 import { getApi } from "../../service/axiosInterceptors";
+import useLang from "../../utils/useLang";
 
 const Header = () => {
   const [show, setShow] = useState(false);
-  const [lang, setLang] = useState("mr");
-  const [path, setPath] = useState("/");
 
   const [search, setSearch] = useState(null);
-  const [memberData, setMemberData] = useState([]);
-  const [debateData, setDebateData] = useState([]);
 
   const location = useLocation();
-  const queryParams = new URLSearchParams(location.search);
+
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
@@ -113,37 +110,7 @@ const Header = () => {
     },
   };
 
-  const updateLocalStorage = (newLang) => {
-    localStorage.setItem("lang", newLang);
-  };
-
-  useEffect(() => {
-    const storedLang = localStorage.getItem("lang");
-    const newLang = queryParams.get("lang") || storedLang || "mr";
-    setLang(newLang);
-    updateLocalStorage(newLang);
-  }, [location.search]);
-
-  // console.log(search, "search");
-  // console.log(searchData, "search");
-
-  // console.log(search, "search");
-  // console.log(memberData, "search member");
-  // console.log(debateData, "search debate");
-
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     await getApi(`member/search?id=${search}`)
-  //       .then((res) => setMemberData(res.data.data))
-  //       .catch((err) => console.log(err));
-
-  //     await getApi(`debate/search?id=${search}`)
-  //       .then((res) => setDebateData(res.data.data))
-  //       .catch((err) => console.log(err));
-  //   };
-
-  //   fetchData();
-  // }, [search]);
+  const { lang, checkLang } = useLang();
 
   return (
     <>

@@ -4,11 +4,9 @@ import { Container } from "react-bootstrap";
 import { useLocation, Link } from "react-router-dom";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import Header from "../Components/Common/Header";
-import Footer from "../Components/Common/Footer";
-const Contactus = () => {
-  const [lang, setLang] = useState("mr");
 
+import useLang from "../utils/useLang";
+const ContactUs = () => {
   const data = {
     title: {
       marathi: "आमच्याशी संपर्क साधा",
@@ -49,22 +47,10 @@ const Contactus = () => {
     ],
   };
 
-  const location = useLocation();
-  const queryParams = new URLSearchParams(location.search);
-
-  const updateLocalStorage = (newLang) => {
-    localStorage.setItem("lang", newLang);
-  };
-  useEffect(() => {
-    const storedLang = localStorage.getItem("lang");
-    const newLang = queryParams.get("lang") || storedLang || "mr";
-    setLang(newLang);
-    updateLocalStorage(newLang);
-  }, [location.search]);
+  const { lang, checkLang } = useLang();
 
   return (
     <>
-      <Header />
       <div>
         <Container fluid className="section-top-space">
           <ul className="breadcrumb">
@@ -176,9 +162,8 @@ const Contactus = () => {
           </Container>
         </Container>
       </div>
-      <Footer />
     </>
   );
 };
 
-export default Contactus;
+export default ContactUs;

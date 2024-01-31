@@ -5,10 +5,11 @@ import logo from "../../assets/logo.png";
 import { Link, useLocation } from "react-router-dom";
 import { putApi } from "../../service/axiosInterceptors";
 import axios from "axios";
+
+import useLang from "../../utils/useLang";
 const Footer = () => {
   const [count, setCount] = useState(0);
   const [fetched, setFetched] = useState(true);
-  const [lang, setLang] = useState("mr");
 
   const data = {
     link1: {
@@ -37,19 +38,7 @@ const Footer = () => {
     ],
   };
 
-  const location = useLocation();
-  const queryParams = new URLSearchParams(location.search);
-
-  const updateLocalStorage = (newLang) => {
-    localStorage.setItem("lang", newLang);
-  };
-
-  useEffect(() => {
-    const storedLang = localStorage.getItem("lang");
-    const newLang = queryParams.get("lang") || storedLang || "mr";
-    setLang(newLang);
-    updateLocalStorage(newLang);
-  }, [location.search]);
+  const { lang, checkLang } = useLang();
 
   const counterFooter = async () => {
     await axios

@@ -8,19 +8,7 @@
 // import news2 from "../../assets/Link → 2-1-560x379.jpg.jpg";
 // import news3 from "../../assets/Link → 3-1-560x379.jpg.png";
 // const HomeSection1 = () => {
-//   const [lang, setLang] = useState("mr");
-//   const location = useLocation();
-//   const queryParams = new URLSearchParams(location.search);
-
-//   const updateLocalStorage = (newLang) => {
-//     localStorage.setItem("lang", newLang);
-//   };
-//   useEffect(() => {
-//     const storedLang = localStorage.getItem("lang");
-//     const newLang = queryParams.get("lang") || storedLang || "mr";
-//     setLang(newLang);
-//     updateLocalStorage(newLang);
-//   }, [location.search]);
+//  const lang = useLang()
 
 //   const [currentIndex, setCurrentIndex] = useState(0);
 

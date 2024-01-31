@@ -1,11 +1,8 @@
 import React, { useState, useEffect } from "react";
-import Header from "../Components/Common/Header";
 import { Row, Container } from "react-bootstrap";
-import Footer from "../Components/Common/Footer";
 import { Link, useLocation } from "react-router-dom";
+import useLang from "../utils/useLang";
 const LinkSection = () => {
-  const [lang, setLang] = useState("mr");
-
   const data = {
     Link1: {
       marathi: "मुख्यपृष्ठ",
@@ -17,23 +14,10 @@ const LinkSection = () => {
     },
   };
 
-  const location = useLocation();
-  const queryParams = new URLSearchParams(location.search);
-  const updateLocalStorage = (newLang) => {
-    localStorage.setItem("lang", newLang);
-  };
-
-  useEffect(() => {
-    const storedLang = localStorage.getItem("lang");
-    const newLang = queryParams.get("lang") || storedLang || "mr";
-    setLang(newLang);
-    updateLocalStorage(newLang);
-  }, [location.search]);
-
+  const { lang, checkLang } = useLang();
   return (
     <>
       <div>
-        <Header />
         <Container fluid className="section-top-space">
           <ul className="breadcrumb">
             <li>
@@ -206,8 +190,6 @@ const LinkSection = () => {
             </Container>
           </section>
         </Container>
-
-        <Footer />
       </div>
     </>
   );
