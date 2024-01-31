@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Container, Row } from "react-bootstrap";
 
-const Slider = ({ data = [] }) => {
+const Slider = ({ data = [], field }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const nextSlide = () => {
@@ -34,7 +34,7 @@ const Slider = ({ data = [] }) => {
     <Container fluid className="mt-4 mb-4">
       <Row>
         <div className="head-mediascroll mb-3 " style={{ paddingLeft: "90px" }}>
-          Latest Update
+          {field}
         </div>
         <div className="slider-section mt-0">
           <div className="slider-container-media" style={{ width: "87%" }}>

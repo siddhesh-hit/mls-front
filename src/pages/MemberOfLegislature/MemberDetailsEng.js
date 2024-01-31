@@ -1,24 +1,23 @@
 import React, { useState, useEffect } from "react";
-import { Container, Row, Col, Button, Pagination } from "react-bootstrap";
-import news1 from "../../assets/Rectangle 6607.jpg";
-import { useLocation, useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-import { getApi, getApiById } from "../../service/axiosInterceptors";
-import { API } from "../../config";
+import { Container, Row, Col, Button } from "react-bootstrap";
+import { useLocation, useNavigate, Link } from "react-router-dom";
+
+import Slider from "../../Components/Common/Slider";
 import useLang from "../../utils/useLang";
 
+import { getApi, getApiById } from "../../service/axiosInterceptors";
+import { API } from "../../config";
+import { slider } from "../../constant";
+
 const MemberDetailEng = () => {
-  const [currentIndex, setCurrentIndex] = useState(0);
   const [activeTab, setActiveTab] = useState("profile");
 
   const [current, setCurrent] = useState({});
   const [member, setMember] = useState([]);
   const [debates, setDebates] = useState([]);
   const [filtered, setFiltered] = useState([]);
-  const [perLimit, setPerLimit] = useState(10);
-  const [perPage, setPerPage] = useState(1);
+
+  const { lang, checkLang } = useLang();
 
   const data = {
     title: {
@@ -141,56 +140,28 @@ const MemberDetailEng = () => {
   const location = useLocation();
   const id = location.search.split("=")[1];
 
-  const updateLocalStorage = (newLang) => {
-    localStorage.setItem("lang", newLang);
+  const handleSwitch = (info) => {
+    setActiveTab(info);
   };
 
-  const switchToProfile = () => {
-    setActiveTab("profile");
+  const handleClick = (id) => {
+    navigate(`/MemberDetailsEng?id=${id}`, { replace: true });
+    window.location.reload();
   };
 
-  const switchToPolitical = () => {
-    setActiveTab("politicalJ");
+  const handleSearch = (e) => {
+    const search = e.target.value;
+
+    const data = member.filter((ele) => {
+      let name = ele?.basic_info?.surname + ele?.basic_info?.name;
+
+      if (name.toLowerCase().includes(search.toLowerCase())) {
+        return ele;
+      }
+    });
+
+    setFiltered(data);
   };
-
-  const switchToElection = () => {
-    setActiveTab("election");
-  };
-
-  const switchToDebate = () => {
-    setActiveTab("debate");
-  };
-
-  const nextSlide = () => {
-    setCurrentIndex((currentIndex + 1) % 8);
-  };
-
-  const nextSlides = () => {
-    setCurrentIndex((currentIndex + 1) % 8);
-  };
-
-  const prevSlide = () => {
-    setCurrentIndex((currentIndex - 1 + 8) % 8);
-  };
-
-  const prevSlides = () => {
-    setCurrentIndex((currentIndex - 1 + 8) % 8);
-  };
-
-  const updateSlider = () => {
-    const sliderContent = document.querySelector(".slider-content");
-    const cardWidth =
-      document.querySelector(".review-card-media").offsetWidth + 20;
-    sliderContent.style.transform = `translateX(${
-      -currentIndex * cardWidth
-    }px)`;
-  };
-
-  const { lang, checkLang } = useLang();
-
-  useEffect(() => {
-    updateSlider();
-  }, [currentIndex]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -225,25 +196,6 @@ const MemberDetailEng = () => {
       fetchDebate("विधानसभा", name, 0, 10);
     }
   }, [current]);
-
-  const handleClick = (id) => {
-    navigate(`/MemberDetailsEng?id=${id}`, { replace: true });
-    window.location.reload();
-  };
-
-  const handleSearch = (e) => {
-    const search = e.target.value;
-
-    const data = member.filter((ele) => {
-      let name = ele?.basic_info?.surname + ele?.basic_info?.name;
-
-      if (name.toLowerCase().includes(search.toLowerCase())) {
-        return ele;
-      }
-    });
-
-    setFiltered(data);
-  };
 
   return (
     <>
@@ -407,7 +359,7 @@ const MemberDetailEng = () => {
                           borderRadius: "5px",
                           padding: "0px 7px",
                         }}
-                        onClick={switchToProfile}
+                        onClick={() => handleSwitch("profile")}
                       >
                         <div style={{ fontSize: "15px" }}>
                           {lang === "mr"
@@ -431,7 +383,7 @@ const MemberDetailEng = () => {
                           padding: "0px 7px",
                           borderRadius: "5px",
                         }}
-                        onClick={switchToPolitical}
+                        onClick={() => handleSwitch("politicalJ")}
                       >
                         <div style={{ fontSize: "15px" }}>
                           {lang === "mr"
@@ -453,7 +405,7 @@ const MemberDetailEng = () => {
                           padding: "0px 7px",
                           borderRadius: "5px",
                         }}
-                        onClick={switchToElection}
+                        onClick={() => handleSwitch("election")}
                       >
                         <div style={{ fontSize: "15px" }}>
                           {lang === "mr"
@@ -475,7 +427,7 @@ const MemberDetailEng = () => {
                           padding: "0px 7px",
                           borderRadius: "5px",
                         }}
-                        onClick={switchToDebate}
+                        onClick={() => handleSwitch("debate")}
                       >
                         <div style={{ fontSize: "15px" }}>
                           {lang === "mr"
@@ -1015,292 +967,8 @@ const MemberDetailEng = () => {
                 </div>
               </Col>
             </Row>
-            <div>
-              <Container fluid>
-                <div className="head-mediascroll mb-3">News</div>
-                <Row className="news-box p-2 ">
-                  <div className="slider-section mt-0">
-                    <div className="slider-container-media">
-                      <div className="slider-content">
-                        <div className="review-card-media">
-                          <div className="flex-profile">
-                            <img
-                              src={news1}
-                              alt="img"
-                              style={{ width: "100%" }}
-                            />
-                          </div>
-                          <div className="news-headline mt-0 p-0">
-                            25 August
-                            <div style={{ fontSize: "14px" }}>
-                              PROBATIONERS OF INDIAN RAILWAYS
-                            </div>
-                          </div>
-                        </div>
-                        <div className="review-card-media">
-                          <div className="flex-profile">
-                            <img
-                              src={news1}
-                              alt="img"
-                              style={{ width: "100%" }}
-                            />
-                          </div>
-                          <div className="news-headline mt-0 p-0">
-                            25 August
-                            <div style={{ fontSize: "14px" }}>
-                              PROBATIONERS OF INDIAN RAILWAYS
-                            </div>
-                          </div>
-                        </div>
-                        <div className="review-card-media">
-                          <div className="flex-profile">
-                            <img
-                              src={news1}
-                              alt="img"
-                              style={{ width: "100%" }}
-                            />
-                          </div>
-                          <div className="news-headline mt-0 p-0">
-                            25 August
-                            <div style={{ fontSize: "14px" }}>
-                              PROBATIONERS OF INDIAN RAILWAYS
-                            </div>
-                          </div>
-                        </div>
-                        <div className="review-card-media">
-                          <div className="flex-profile">
-                            <img
-                              src={news1}
-                              alt="img"
-                              style={{ width: "100%" }}
-                            />
-                          </div>
-                          <div className="news-headline mt-0 p-0">
-                            25 August
-                            <div style={{ fontSize: "14px" }}>
-                              PROBATIONERS OF INDIAN RAILWAYS
-                            </div>
-                          </div>
-                        </div>
-                        <div className="review-card-media">
-                          <div className="flex-profile">
-                            <img
-                              src={news1}
-                              alt="img"
-                              style={{ width: "100%" }}
-                            />
-                          </div>
-                          <div className="news-headline mt-0 p-0">
-                            25 August
-                            <div style={{ fontSize: "14px" }}>
-                              PROBATIONERS OF INDIAN RAILWAYS
-                            </div>
-                          </div>
-                        </div>
-                        <div className="review-card-media">
-                          <div className="flex-profile">
-                            <img
-                              src={news1}
-                              alt="img"
-                              style={{ width: "100%" }}
-                            />
-                          </div>
-                          <div className="news-headline mt-0 p-0">
-                            25 August
-                            <div style={{ fontSize: "14px" }}>
-                              PROBATIONERS OF INDIAN RAILWAYS
-                            </div>
-                          </div>
-                        </div>
-                        <div className="review-card-media">
-                          <div className="flex-profile">
-                            <img
-                              src={news1}
-                              alt="img"
-                              style={{ width: "100%" }}
-                            />
-                          </div>
-                          <div className="news-headline mt-0 p-0">
-                            25 August
-                            <div style={{ fontSize: "14px" }}>
-                              PROBATIONERS OF INDIAN RAILWAYS
-                            </div>
-                          </div>
-                        </div>
-                        <div className="review-card-media">
-                          <div className="flex-profile">
-                            <img
-                              src={news1}
-                              alt="img"
-                              style={{ width: "100%" }}
-                            />
-                          </div>
-                          <div className="news-headline mt-0 p-0">
-                            25 August
-                            <div style={{ fontSize: "14px" }}>
-                              PROBATIONERS OF INDIAN RAILWAYS
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="text-center justify-content-center">
-                    <i
-                      className="fa fa-arrow-left  m-2 button-scroll p-1"
-                      onClick={prevSlide}
-                    ></i>
-                    <i
-                      className="fa fa-arrow-right m-2 button-scroll p-1"
-                      onClick={nextSlide}
-                    ></i>
-                  </div>
-                </Row>
-              </Container>
-            </div>
-            <div>
-              <Container fluid>
-                <div className="head-mediascroll mb-3">Media</div>
-                <Row className="news-box p-2 ">
-                  <div className="slider-section mt-0">
-                    <div className="slider-container-media">
-                      <div className="slider-content">
-                        <div className="review-card-media">
-                          <div className="flex-profile">
-                            <img
-                              src={news1}
-                              alt="img"
-                              style={{ width: "100%" }}
-                            />
-                          </div>
-                          <div className="news-headline mt-0 p-0">
-                            25 August
-                            <div style={{ fontSize: "14px" }}>
-                              PROBATIONERS OF INDIAN RAILWAYS
-                            </div>
-                          </div>
-                        </div>
-                        <div className="review-card-media">
-                          <div className="flex-profile">
-                            <img
-                              src={news1}
-                              alt="img"
-                              style={{ width: "100%" }}
-                            />
-                          </div>
-                          <div className="news-headline mt-0 p-0">
-                            25 August
-                            <div style={{ fontSize: "14px" }}>
-                              PROBATIONERS OF INDIAN RAILWAYS
-                            </div>
-                          </div>
-                        </div>
-                        <div className="review-card-media">
-                          <div className="flex-profile">
-                            <img
-                              src={news1}
-                              alt="img"
-                              style={{ width: "100%" }}
-                            />
-                          </div>
-                          <div className="news-headline mt-0 p-0">
-                            25 August
-                            <div style={{ fontSize: "14px" }}>
-                              PROBATIONERS OF INDIAN RAILWAYS
-                            </div>
-                          </div>
-                        </div>
-                        <div className="review-card-media">
-                          <div className="flex-profile">
-                            <img
-                              src={news1}
-                              alt="img"
-                              style={{ width: "100%" }}
-                            />
-                          </div>
-                          <div className="news-headline mt-0 p-0">
-                            25 August
-                            <div style={{ fontSize: "14px" }}>
-                              PROBATIONERS OF INDIAN RAILWAYS
-                            </div>
-                          </div>
-                        </div>
-                        <div className="review-card-media">
-                          <div className="flex-profile">
-                            <img
-                              src={news1}
-                              alt="img"
-                              style={{ width: "100%" }}
-                            />
-                          </div>
-                          <div className="news-headline mt-0 p-0">
-                            25 August
-                            <div style={{ fontSize: "14px" }}>
-                              PROBATIONERS OF INDIAN RAILWAYS
-                            </div>
-                          </div>
-                        </div>
-                        <div className="review-card-media">
-                          <div className="flex-profile">
-                            <img
-                              src={news1}
-                              alt="img"
-                              style={{ width: "100%" }}
-                            />
-                          </div>
-                          <div className="news-headline mt-0 p-0">
-                            25 August
-                            <div style={{ fontSize: "14px" }}>
-                              PROBATIONERS OF INDIAN RAILWAYS
-                            </div>
-                          </div>
-                        </div>
-                        <div className="review-card-media">
-                          <div className="flex-profile">
-                            <img
-                              src={news1}
-                              alt="img"
-                              style={{ width: "100%" }}
-                            />
-                          </div>
-                          <div className="news-headline mt-0 p-0">
-                            25 August
-                            <div style={{ fontSize: "14px" }}>
-                              PROBATIONERS OF INDIAN RAILWAYS
-                            </div>
-                          </div>
-                        </div>
-                        <div className="review-card-media">
-                          <div className="flex-profile">
-                            <img
-                              src={news1}
-                              alt="img"
-                              style={{ width: "100%" }}
-                            />
-                          </div>
-                          <div className="news-headline mt-0 p-0">
-                            25 August
-                            <div style={{ fontSize: "14px" }}>
-                              PROBATIONERS OF INDIAN RAILWAYS
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="text-center justify-content-center">
-                    <i
-                      className="fa fa-arrow-left  m-2 button-scroll p-1"
-                      onClick={prevSlides}
-                    ></i>
-                    <i
-                      className="fa fa-arrow-right m-2 button-scroll p-1"
-                      onClick={nextSlides}
-                    ></i>
-                  </div>
-                </Row>
-              </Container>
-            </div>
+            <Slider data={slider} field={"News"} key={1} />
+            <Slider data={slider} field={"Media"} key={2} />
           </div>
         </Container>
       </section>

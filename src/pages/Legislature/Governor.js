@@ -300,7 +300,7 @@ const Governor = () => {
           </div>
 
           {/* make sure to upload the data in the given format, else modify the slider */}
-          <Slider data={slider} />
+          <Slider data={slider} field={"Latest Update"} key={"diff1"} />
         </section>
       </div>
     </>
