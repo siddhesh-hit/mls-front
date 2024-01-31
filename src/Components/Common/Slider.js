@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Container, Row } from "react-bootstrap";
 
-const Slider = ({ data = [], field }) => {
+const Slider = ({ data = [], field, keyId }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const nextSlide = () => {
@@ -13,8 +13,10 @@ const Slider = ({ data = [], field }) => {
   };
 
   const updateSlider = () => {
-    const sliderContent = document.querySelector(".slider-content");
-    const reviewCardMedia = document.querySelector(".review-card-media");
+    const sliderContent = document.querySelector(`.slider-content${keyId}`);
+    const reviewCardMedia = document.querySelector(
+      `.review-card-media${keyId}`
+    );
 
     if (sliderContent && reviewCardMedia) {
       const cardWidth = reviewCardMedia.offsetWidth + 20;
@@ -38,11 +40,14 @@ const Slider = ({ data = [], field }) => {
         </div>
         <div className="slider-section mt-0">
           <div className="slider-container-media" style={{ width: "87%" }}>
-            <div className="slider-content">
+            <div className={`slider-content slider-content${keyId}`}>
               {data && data.length > 0 ? (
                 <>
                   {data.map((item, index) => (
-                    <div className="review-card-media" key={index}>
+                    <div
+                      className={`review-card-media review-card-media${keyId}`}
+                      key={index}
+                    >
                       <div className="flex-profile">
                         <img
                           src={item.image}

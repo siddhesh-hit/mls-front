@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Col, Container, Row, Table } from "react-bootstrap";
+import { Container, Row, Table } from "react-bootstrap";
 import debatedet from "../../assets/debate_video.png";
 import { Link, useLocation } from "react-router-dom";
 import { getApiById } from "../../service/axiosInterceptors";
