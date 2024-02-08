@@ -804,6 +804,44 @@ const councilDebate = {
   },
 };
 
+const Ministers = {
+  marathi: {
+    link1: "मुख्यपृष्ठ",
+    link2: "विधिमंडळ",
+    link3: "मंत्रीमंडळ ",
+    list: "मंत्र्यांची यादी",
+    h1: "क्र.",
+    h2: "नाव",
+    h3: "विभाग",
+    h4: "पद",
+    h5: "लिंग",
+    member1H: "श्री. एकनाथ संभाजी शिंदे",
+    member2H: "श्री. देवेंद्र फडणवीस",
+    member3H: "श्री.अजित अनंतराव पवार",
+    member1D: "महाराष्ट्राचे मुख्यमंत्री",
+    member2D: "महाराष्ट्राचे उपमुख्यमंत्री",
+    member3D: "महाराष्ट्राचे उपमुख्यमंत्री"
+  },
+  english: {
+
+    link1: "Home",
+    link2: "Legislature",
+    link3: "Council of Minister",
+    list: "Minister List",
+    h1: "SR.No",
+    h2: "Name",
+    h3: "Department",
+    h4: "Position",
+    h5: "Gender",
+    member1H: "Mr. Eknath Sambhaji Shinde",
+    member2H: "Mr. Devendra Fadnavis",
+    member3H: "Mr.Ajit Anantrao Pawar",
+    member1D: "Chief Minister of Maharashtra",
+    member2D: "Deputy Chief Minister of Maharashtra",
+    member3D: "Deputy Chief Minister of Maharashtra"
+  }
+}
+
 export {
   home,
   homeLink,
@@ -818,4 +856,5 @@ export {
   combinedDebate,
   assemblyDebate,
   councilDebate,
+  Ministers
 };
