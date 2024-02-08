@@ -39,6 +39,7 @@ import NewHome from "./pages/HomePage/NewHome";
 import Search from "./pages/Search";
 import DebateDetails from "./pages/Debates/DebateDetails";
 import Gallery from "./Components/Common/Gallery";
+import Minister from "./pages/Legislature/CouncilMinister";
 
 export const routes = [
   {
@@ -235,5 +236,11 @@ export const routes = [
     name: "Profile",
     component: <Profile />,
     path: "/Profile",
+  },
+
+  {
+    name:"Minister",
+    component:<Minister/>,
+    path:"/CouncilMinister",
   },
 ];

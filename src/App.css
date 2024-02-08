@@ -3063,3 +3063,14 @@ table.table-lightt.table.table-bordered {
   font-size: 15px;
   text-align: center;
 }
+
+.table-col2-min {
+  padding: 1%;
+  background-color: #ce5d3d;
+  color: white;
+  font-weight: 300;
+}
+
+.table-min tr td {
+  border: 1px solid #5f5b59;
+}
